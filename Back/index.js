@@ -12,3 +12,9 @@ function obras() {
 
 }
 
+function coleccion() {
+
+    let contenidocoleccion = JSON.parse (fs.readFileSync("../data/coleccion.json","utf-8"));
+    return contenidocoleccion
+
+}
