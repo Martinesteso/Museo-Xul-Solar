@@ -12,11 +12,6 @@ function obras() {
     return contenidoobras
 }
 
-function coleccion() {
-    let contenidocoleccion = JSON.parse(fs.readFileSync("../data/coleccion.json","utf-8"));
-    return contenidocoleccion
-}
-
 function obrasColeccion() {
    
     let todasLasObras = JSON.parse(fs.readFileSync("../data/obras.json","utf-8"));
@@ -26,21 +21,31 @@ function obrasColeccion() {
 }
 
 function modificarColeccion(data) {
-    
+
     let coleccionActual = JSON.parse(fs.readFileSync("../data/coleccion.json","utf-8"));
+    
     if (data.enColección === true) {
         
         if (!coleccionActual.includes(data.id)) {
-            coleccionActual.push(data.id);
+            coleccionActual.push(data.id); //Anotación: push agrega un elemento al final del array (coección.json)
             
             fs.writeFileSync("../data/coleccion.json", JSON.stringify(coleccionActual));
             
             return true;
         }
-       
+        
         return true;
     } else {
         
-        return false;
+        coleccionActual = coleccionActual.filter(id => id !== data.id); //Anotación: !== quiere decir si no es igual a...
+        
+        fs.writeFileSync("../data/coleccion.json", JSON.stringify(coleccionActual));
+        
+        return true;
     }
+}
+
+function coleccion() {
+    let contenidocoleccion = JSON.parse(fs.readFileSync("../data/coleccion.json","utf-8"));
+    return contenidocoleccion
 }
