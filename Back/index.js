@@ -6,40 +6,47 @@ subscribeGETEvent("obras", obras)
 subscribeGETEvent("colección", coleccion)
 subscribeGETEvent("obrasColección", obrasColeccion)
 subscribePOSTEvent("modificarColección", modificarColeccion)
-//Anotación: Esta función devuelve un array con todas las obras del museo
+
 function obras() {
     let contenidoObras = JSON.parse(fs.readFileSync("../data/obras.json","utf-8"));
     return contenidoObras
 }
-//Anotación: Esta función devuelve un array con los IDs de las obras que están en la colección
-function coleccion() {                  //Anontacion: JSON.parse interpreta texto JSON y lo vuelve objeto/array de JS.
-    let contenidoColeccion = JSON.parse(fs.readFileSync("../data/coleccion.json","utf-8")); //Anotación: utf-8 es un formato de codificación de caracteres
+
+function coleccion() {                 
+    let contenidoColeccion = JSON.parse(fs.readFileSync("../data/coleccion.json","utf-8")); 
     return contenidoColeccion
 }
-//Anotación: Esta función modifica el archivo colección.json agregando o quitando el ID de la obra según el valor de enColección
-function modificarColeccion(data) {//Anotación: data es el parametro que recibe la función modificarColección
-                        //Anotación: data se convierte en el parametro de modificarColección, que es un objeto con dos propiedades: id y enColección
-    let coleccionActual = JSON.parse(fs.readFileSync("../data/coleccion.json","utf-8"));//Anotación: coleccionActual es un array con los IDs de las obras que están en la colección
+
+function modificarColeccion(data) {
+                       
+    let coleccionActual = JSON.parse(fs.readFileSync("../data/coleccion.json","utf-8"));
     if (data.enColección === true) {
         
-        if (!coleccionActual.includes(data.id)) { //Anotación: el segundo if evita que haya duplicados en el array
-            coleccionActual.push(data.id); //Anotación: push agrega un elemento al final del array que se encuentra en coección.json
+        if (!coleccionActual.includes(data.id)) { 
+            coleccionActual.push(data.id); 
             
             fs.writeFileSync("../data/coleccion.json", JSON.stringify(coleccionActual,null, 2));
         }
         return true;
     } else {
-                                          //Anotación: filter crea un nuevo array con los elementos que cumplen la condición, los que no seran eliminados
-        coleccionActual = coleccionActual.filter(id => id !== data.id); //Anotación: !== quiere decir si no es igual a...
+
+        let coleccionNueva;
+
+        for (let i = 0; i < coleccionActual.length; i++) {
+
+            
+            
+            
         fs.writeFileSync("../data/coleccion.json", JSON.stringify(coleccionActual,null, 2));
-        return true;
-    }
-}
-//Anotación: Esta función devuelve un array con las obras que están en la colección
+
+        }
+    return true;
+}}
+
 function obrasColeccion() {
    
     let todasLasObras = JSON.parse(fs.readFileSync("../data/obras.json","utf-8"));
     let idColeccion = JSON.parse(fs.readFileSync("../data/coleccion.json","utf-8"));
     let obrasEnColeccion = todasLasObras.filter(obra => idColeccion.includes(obra.id));
-    return obrasEnColeccion;             //Anotción: Ademas, filter filtra todos los elementos, no uno en especifico
+    return obrasEnColeccion;           
 }
