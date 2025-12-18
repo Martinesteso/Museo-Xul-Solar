@@ -29,24 +29,26 @@ function modificarColeccion(data) {
         }
         return true;
     } else {
-
-        let coleccionNueva;
-
+       
+        let coleccionNueva = [];
+        
         for (let i = 0; i < coleccionActual.length; i++) {
-
-            
-            
-            
-        fs.writeFileSync("../data/coleccion.json", JSON.stringify(coleccionActual,null, 2));
-
+           
+            if (coleccionActual[i] !== data.id) {
+                coleccionNueva.push(coleccionActual[i]);
+            }
         }
-    return true;
-}}
+        
+        fs.writeFileSync("../data/coleccion.json", JSON.stringify(coleccionNueva, null, 2));
+        
+        return true;
+    }
+}
 
 function obrasColeccion() {
    
     let todasLasObras = JSON.parse(fs.readFileSync("../data/obras.json","utf-8"));
     let idColeccion = JSON.parse(fs.readFileSync("../data/coleccion.json","utf-8"));
     let obrasEnColeccion = todasLasObras.filter(obra => idColeccion.includes(obra.id));
-    return obrasEnColeccion;           
+    return obrasEnColeccion;
 }
